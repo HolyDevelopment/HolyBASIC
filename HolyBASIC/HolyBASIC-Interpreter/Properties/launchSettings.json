@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "HolyBASIC-Interpreter": {
+      "commandName": "Project",
+      "commandLineArgs": "\"d:\\Media\\Documents\\Visual Studio 2017\\Projects\\HolyBASIC\\test.hb\""
+    }
+  }
+}

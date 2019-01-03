@@ -1,0 +1,36 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.136
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HolyBASIC-Interpreter", "HolyBASIC-Interpreter\HolyBASIC-Interpreter.csproj", "{3A56BC43-FAA2-483A-88A4-458EC2142D4E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HolyBASIC-Compiler", "HolyBASIC-Compiler\HolyBASIC-Compiler.csproj", "{479CAD77-3E1E-4B50-A44F-11C627926DF1}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Scripts", "Scripts", "{5A55D2D5-83B0-41F6-9E83-7BCC54013C17}"
+	ProjectSection(SolutionItems) = preProject
+		test.hb = test.hb
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{3A56BC43-FAA2-483A-88A4-458EC2142D4E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3A56BC43-FAA2-483A-88A4-458EC2142D4E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3A56BC43-FAA2-483A-88A4-458EC2142D4E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3A56BC43-FAA2-483A-88A4-458EC2142D4E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{479CAD77-3E1E-4B50-A44F-11C627926DF1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{479CAD77-3E1E-4B50-A44F-11C627926DF1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{479CAD77-3E1E-4B50-A44F-11C627926DF1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{479CAD77-3E1E-4B50-A44F-11C627926DF1}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {6795417C-459F-4012-8458-0C4D26BCF0F1}
+	EndGlobalSection
+EndGlobal

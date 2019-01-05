@@ -81,7 +81,7 @@ namespace Interpreter
 
         static void Main(string[] args)
         {
-            if (args.Length < 1)
+            if (args.Length < 1 || args.Length >= 66)
                 Environment.Exit(0);
 
             if (args.Contains("-i"))

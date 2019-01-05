@@ -3,3 +3,4 @@
 2 GODSAY "This will execute after."
 10 GODSAY "woah"
 11 GODLISTEN
+68 GODSAY "This should not show up."

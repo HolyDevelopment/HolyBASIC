@@ -36,6 +36,8 @@
 
                HolyBASIC keywords 
 
+               IMPORT [library] - imports hb library
+
                HOLY - assign value
                DATA - hold a list of values
 
@@ -47,23 +49,32 @@
                GODMOVE - jumps to a numbered of labelled line in the program
                GOSUB - jumps to a numbered or labelled line, executes the code it finds there until it reaches a return command
                ON, GODMOVE/GOSUB - chooses where to jump based on the specified conditions. (basically switch?)
-               DEF FN - a pair of keywords introduced in the early 1960s to define functions.
+               DEF FunctionName [args]: - function defining
 
                GODSLIST - displays all inputted code
                GODSAY - outputs any sort of message
                GODLISTEN - asks the user to enter the value of a variable
                GODTAB - sets the position where the next character will be shown on the screen or printed on paper
 
-               ABS - absolute value
-               ATN - arctangent value
-               COS - cosine value
-               EXP - exponential vlaue
-               CMDMT - integer value
-               LOG - natural logarithmic value
-               RND - random value
-               SIN - sine value
-               SQR - square root value
-               TAN - tangent value
+               (CMDMT - integer value)
+
+               [math.hb]
+
+               MATH.ABS - absolute value
+               MATH.ATN - arctangent value
+               MATH.COS - cosine value
+               MATH.EXP - exponential vlaue
+               MATH.LOG - natural logarithmic value
+               MATH.RND - random value
+               MATH.SIN - sine value
+               MATH.SQR - square root value
+               MATH.TAN - tangent value
+
+               [Misc]
+
+               _IMPORTEXT (C# Module) - import C# module, for EXTERN
+               EXTERN (FunctionName) (C# Equivalent) - implement a function that is defined externally
+               ## will comment things out
 */
 
 using System;
@@ -79,9 +90,9 @@ namespace Interpreter
     {
         static bool Interactivity;
 
-        static void Main(string[] args)
+        static async Task Main(string[] args)
         {
-            if (args.Length < 1 || args.Length >= 66)
+            if (args.Length < 1)
                 Environment.Exit(0);
 
             if (args.Contains("-i"))
@@ -90,9 +101,9 @@ namespace Interpreter
             if (!File.Exists(args[0]) && Interactivity == false)
                 Environment.Exit(0);
 
-            Parser.ParseAsync(Lexer.AnalyzeMultiple(File.ReadAllText(args[0]))).ConfigureAwait(false).GetAwaiter().GetResult();
+            // Parser.ParseAsync(Lexer.Analyze(File.ReadAllLines(args[0]))).ConfigureAwait(false).GetAwaiter().GetResult();
 
-            // InteractiveMode().ConfigureAwait(false).GetAwaiter().GetResult();
+            await InteractiveMode();
         }
 
         static async Task InteractiveMode()
@@ -102,9 +113,9 @@ namespace Interpreter
 
             while (true)
             {
-                await Console.Out.WriteAsync(">");
+                await Console.Out.WriteAsync($"> ");
                 string input = await Console.In.ReadLineAsync();
-                
+                await Parser.ParseAsync(Lexer.Analyze(new[] { $"{input}" }, false));
             }
         }
     }

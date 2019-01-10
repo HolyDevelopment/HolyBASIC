@@ -1,6 +1,8 @@
-1 GODSAY "Hello Jesus!"
-3 GODSAY "This will execute before."
-2 GODSAY "This will execute after."
-10 GODSAY "woah"
-11 GODLISTEN
-68 GODSAY "This should not show up."
+_USENUMBERSYS 0
+IMPORT MATH
+
+## right now this is wip stuff
+GODSAY "hello"
+GODSAY "The square root of 5 is..."
+GODSAY MATH.SQR 5
+GODLISTEN

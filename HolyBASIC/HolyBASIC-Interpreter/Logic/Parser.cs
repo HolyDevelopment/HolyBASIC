@@ -3,7 +3,7 @@ using System.Linq;
 using System.Threading.Tasks;
 
 using Interpreter.Entities;
-using Interpreter.Defaults;
+using Interpreter.Globals;
 
 namespace Interpreter.Logic
 {
@@ -13,13 +13,63 @@ namespace Interpreter.Logic
         {
             foreach (object _obj in Tokens)
             {
-                if ((Function)_obj != null)
+                if (_obj.GetType() == typeof(Variable))
+                {
+                    Variable _v = (Variable)_obj;
+                    // await Console.Out.WriteLineAsync($"Found variable! {_v.Name} {_v.Object}");
+                    Runtime.DefinedVariables.Add(_v);
+                }
+
+                if (_obj.GetType() == typeof(Function))
                 {
                     Function _f = (Function)_obj;
-                    if (_f.Name == Functions.AvailableFunctions[0])
-                        await Console.Out.WriteLineAsync((string)_f.Arguments.Last());
-                    if (_f.Name == Functions.AvailableFunctions[1])
-                        Console.ReadKey();
+
+                    if (_f.Name == Defaults.DefaultFunctions[0])
+                    {
+                        if (_f.Arguments.Last().GetType() == typeof(Variable))
+                        {
+                            Variable _v = (Variable)_f.Arguments.Last();
+                            if (_v.Fetch == true)
+                            {
+                                _v = Runtime.DefinedVariables.Where(x => x.Name == _v.Name).FirstOrDefault();
+                                await Console.Out.WriteLineAsync((string)_v.Object);
+                            }
+                        } else 
+                        {
+                            await Console.Out.WriteLineAsync((string)_f.Arguments.Last());
+                        }
+                    }
+
+                    if (_f.Name == Defaults.DefaultFunctions[1])
+                    {
+                        if (_f.Arguments.Last().GetType() == typeof(Variable))
+                        {
+                            Variable _v = (Variable)_f.Arguments.Last();
+                            if (_v.Fetch == true)
+                            {
+                                Runtime.DefinedVariables.Where(x => x.Name == _v.Name).FirstOrDefault().Object = Console.ReadKey().KeyChar;
+                            }
+                        } else
+                        {
+                            Console.ReadKey();
+                        }
+                    }
+
+                    if (_f.Name == Defaults.DefaultFunctions[2])
+                    {
+                        if (_f.Arguments.Last().GetType() == typeof(Variable))
+                        {
+                            Variable _v = (Variable)_f.Arguments.Last();
+                            if (_v.Fetch == true)
+                            {
+                                Runtime.DefinedVariables.Where(x => x.Name == _v.Name).FirstOrDefault().Object = Console.ReadLine();
+                            }
+                        }
+                        else
+                        {
+                            Console.ReadLine();
+                        }
+                    }
                 }
             }
         }

@@ -1,41 +1,41 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
 using Interpreter.Entities;
-using Interpreter.Defaults;
+using Interpreter.Globals;
 
 namespace Interpreter.Logic
 {
     public class Lexer
     {
-        public static object[] AnalyzeMultiple(string _data)
+        public static object[] Analyze(string[] _data, bool _useNumberSystem = true)
         {
-            List<string> Code = _data.Split('\n').ToList();
+            if (_data[0].StartsWith("_USENUMBERSYS "))
+                switch (_data[0].Substring("_USENUMBERSYS ".Length))
+                {
+                    case "1":
+                        _useNumberSystem = true;
+                        break;
+                    case "0":
+                        _useNumberSystem = false;
+                        break;
+                    default:
+                        break;
+                }
 
             // sorting stuff
 
-            for (int x = Code.Count - 1; x > 0; x--)
-                for (int y = Code.Count - 1; y > 0; y--)
-                {
-                    int _lnumberx = Convert.ToInt32(Code[x].Split(' ')[0]);
-                    int _lnumbery = Convert.ToInt32(Code[y].Split(' ')[0]);
-
-                    if (_lnumberx > _lnumbery)
-                    {
-                        string _nx = Code[x];
-                        string _ny = Code[y];
-                        Code[x] = _ny;
-                        Code[y] = _nx;
-                    }
-                }
+            if (_useNumberSystem == true)
+                _data = _data.ToList().OrderBy(x => int.Parse(x.Split(' ')[0])).ToArray();
 
             // oh boy this is gonna be a clusterfuck
 
             List<object> Objects = new List<object>();
+            if (!Objects.Contains(Runtime.DefinedVariables))
+                Objects.Add(Runtime.DefinedVariables);
 
-            foreach (string _line in Code)
+            foreach (string _line in _data)
             {
                 Variable _v = null;
                 Function _f = null;
@@ -50,24 +50,24 @@ namespace Interpreter.Logic
 
                 foreach (char _char in _line)
                 {
+                    if (_vLevel == 1 && _char == ' ')
+                    {
+                        _v.Name = _tokenStr;
+                        _vLevel++;
+                    }
+
                     _tokenStr += _char;
 
-                    if (_tokenStr == "HOLY")
+                    if (_tokenStr == "HOLY ")
                     {
                         _vLevel = 1;
                         _v = new Variable(null, null);
                     }
 
-                    if (Functions.AvailableFunctions.Contains(_tokenStr))
+                    if (Defaults.DefaultFunctions.Contains(_tokenStr))
                     {
                         _fLevel = 1;
                         _f = new Function(_tokenStr, null);
-                    }
-
-                    if (_vLevel == 1 && _char == ' ')
-                    {
-                        _v.Name = _tokenStr;
-                        _vLevel++;
                     }
 
                     if (_vLevel == 2 && _char == '=')
@@ -79,13 +79,22 @@ namespace Interpreter.Logic
                         _sBool = false;
                         if (_vLevel == 3)
                         {
-                            _v.Object = _sValue;
+                            _v.Object = _sValue.Substring(1, _sValue.Length - 2);
                             _vLevel = 0;
                         }
 
                         if (_fLevel == 1)
                         {
                             _f.Arguments = new[] { _sValue.Substring(1, _sValue.Length - 2) };
+                            _fLevel = 0;
+                        }
+                    }
+
+                    if (Runtime.DefinedVariables.Where(x => x.Name == _tokenStr).Count() > 0)
+                    {
+                        if (_fLevel == 1)
+                        {
+                            _f.Arguments = new[] { new Variable(_tokenStr, new object(), true) };
                             _fLevel = 0;
                         }
                     }

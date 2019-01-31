@@ -38,13 +38,15 @@
 
                IMPORT [library] - imports hb library
 
-               HOLY - assign value
-               DATA - hold a list of values
+               holy - assign value
+               data - hold a list of values
 
-               IF, THEN, (ELSE) - self-explanatory
-               FOR, TO, (STEP), NEXT) - repeat a section of code a given number of times
-               WHILE, WEND / REPEAT, UNTIL - repeat a section of code while the specified condition is ture
-               DO, LOOP (WHILE)/(UNTIL) - repeat a section of code Forever or While/Until the specified condition is true
+               if, (else), (elseif), endif - self-explanatory
+               for, endfor - repeat a section of code a given number of times
+               while, endwhile - repeat a section of code while the specified condition is ture
+               do, loop (while) - repeat a section of code Forever or While/Until the specified condition is true
+
+               step - steps in for loops
 
                GODMOVE - jumps to a numbered of labelled line in the program
                GOSUB - jumps to a numbered or labelled line, executes the code it finds there until it reaches a return command
@@ -58,18 +60,6 @@
 
                (CMDMT - integer value)
 
-               [math.hb]
-
-               MATH.ABS - absolute value
-               MATH.ATN - arctangent value
-               MATH.COS - cosine value
-               MATH.EXP - exponential vlaue
-               MATH.LOG - natural logarithmic value
-               MATH.RND - random value
-               MATH.SIN - sine value
-               MATH.SQR - square root value
-               MATH.TAN - tangent value
-
                [Misc]
                
                _USENUMBERSYS 0-1 - determines if it should use the order-by-number system (deprecated)
@@ -82,7 +72,6 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Threading.Tasks;
 
 using Interpreter.Logic;
@@ -104,7 +93,7 @@ namespace Interpreter
         static async Task InteractiveMode()
         {
             await Console.Out.WriteLineAsync("HolyBASIC ver pre0.0.0");
-            await Console.Out.WriteLineAsync("Welcome to the interactive window! Feel free to do about anything in here!");
+            await Console.Out.WriteLineAsync("Welcome to the interactive window! Feel free to do about anything in here!\n");
 
             while (true)
             {

@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Linq;
-using System.Threading.Tasks;
 
 using Interpreter.Entities;
-using Interpreter.Globals;
+using Interpreter.Constants;
 
 namespace Interpreter.Logic
 {
@@ -22,24 +21,25 @@ namespace Interpreter.Logic
                 {
                     Function _f = (Function)_obj;
 
-                    if (_f.Name == Defaults.DefaultFunctions[0])
+                    if (_f.Name == Functions.Func_Print)
                     {
-                        if (_f.Arguments.Last().GetType() == typeof(Variable))
+                        foreach (string _str in _f.Arguments.Where(x => x.GetType() == typeof(string)))
                         {
-                            Variable _v = (Variable)_f.Arguments.Last();
-                            Console.WriteLine((string)_v.Object);
-                        } else 
+                            Console.Write(_str);
+                        }
+
+                        foreach (Variable _var in _f.Arguments.Where(x => x.GetType() == typeof(Variable)))
                         {
-                            Console.WriteLine((string)_f.Arguments.Last());
+                            Console.Write((string)_var.Object);
                         }
                     }
 
-                    if (_f.Name == Defaults.DefaultFunctions[1])
+                    if (_f.Name == Functions.Func_Listen_Key)
                     {
                         Console.ReadKey();
                     }
 
-                    if (_f.Name == Defaults.DefaultFunctions[2])
+                    if (_f.Name == Functions.Func_Listen_Line)
                     {
                         Console.ReadLine();
                     }

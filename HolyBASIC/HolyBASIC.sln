@@ -9,6 +9,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HolyBASIC-Compiler", "HolyB
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Scripts", "Scripts", "{5A55D2D5-83B0-41F6-9E83-7BCC54013C17}"
 	ProjectSection(SolutionItems) = preProject
+		classtest.hb = classtest.hb
 		test.hb = test.hb
 	EndProjectSection
 EndProject

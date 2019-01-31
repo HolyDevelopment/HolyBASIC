@@ -71,13 +71,16 @@
                MATH.TAN - tangent value
 
                [Misc]
-
+               
+               _USENUMBERSYS 0-1 - determines if it should use the order-by-number system (deprecated)
                _IMPORTEXT (C# Module) - import C# module, for EXTERN
                EXTERN (FunctionName) (C# Equivalent) - implement a function that is defined externally
+
                ## will comment things out
 */
 
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -88,22 +91,14 @@ namespace Interpreter
 {
     class Program
     {
-        static bool Interactivity;
-
         static async Task Main(string[] args)
         {
             if (args.Length < 1)
                 Environment.Exit(0);
-
-            if (args.Contains("-i"))
-                Interactivity = true;
-
-            if (!File.Exists(args[0]) && Interactivity == false)
-                Environment.Exit(0);
-
-            // Parser.ParseAsync(Lexer.Analyze(File.ReadAllLines(args[0]))).ConfigureAwait(false).GetAwaiter().GetResult();
-
-            await InteractiveMode();
+            else if (args[0] == "-i")
+                await InteractiveMode();
+            else if (File.Exists(args[0]))
+                Parser.Parse(Lexer.Analyze(await File.ReadAllLinesAsync(args[0])));
         }
 
         static async Task InteractiveMode()
@@ -114,8 +109,23 @@ namespace Interpreter
             while (true)
             {
                 await Console.Out.WriteAsync($"> ");
-                string input = await Console.In.ReadLineAsync();
-                await Parser.ParseAsync(Lexer.Analyze(new[] { $"{input}" }, false));
+                List<string> _code = new List<string>();
+
+                while (true)
+                {
+                    string input = await Console.In.ReadLineAsync();
+                    if (string.IsNullOrWhiteSpace(input))
+                        break;
+                    _code.Add(input);
+                }
+
+                try
+                {
+                    Parser.Parse(Lexer.Analyze(_code.ToArray()));
+                } catch (Exception e)
+                {
+                    await Console.Out.WriteLineAsync($"Error!: {e.Message}");
+                }
             }
         }
     }

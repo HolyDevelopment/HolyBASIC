@@ -21,7 +21,7 @@ namespace Interpreter.Logic
                 string _variableRegex = $"{Variables.Var_Initializer} (.*?) {Variables.Var_Equals}";
                 string _stringRegex = $"{Variables.Str_Quote}(.*?){Variables.Str_Quote}";
                 string _charRegex = $"{Variables.Char_Quote}(.*?){Variables.Char_Quote}";
-                string _functionRegex = @"^(.*)\((.*)\)";
+                string _functionRegex = @"^(.*?)\((.*)\)";
 
                 if (Regex.IsMatch(_line, _variableRegex))
                 {
@@ -36,7 +36,8 @@ namespace Interpreter.Logic
                     object _param = Utils.DeserializeValue(_paramStr, Objects.Where(x => x.GetType() == typeof(Variable)).ToArray());
 
                     Objects.Add(new Variable(_varName, _param));
-                } else if (Regex.IsMatch(_line, _functionRegex))
+                }
+                else if (Regex.IsMatch(_line, _functionRegex))
                 {
                     Match _m = Regex.Match(_line, _functionRegex);
 

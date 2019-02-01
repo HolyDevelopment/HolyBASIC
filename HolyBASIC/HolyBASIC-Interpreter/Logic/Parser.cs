@@ -23,25 +23,42 @@ namespace Interpreter.Logic
 
                     if (_f.Name == Functions.Func_Print)
                     {
-                        foreach (string _str in _f.Arguments.Where(x => x.GetType() == typeof(string)))
+                        foreach (object _o in _f.Arguments)
                         {
-                            Console.Write(_str);
-                        }
-
-                        foreach (Variable _var in _f.Arguments.Where(x => x.GetType() == typeof(Variable)))
-                        {
-                            Console.Write((string)_var.Object);
+                            if (_o.GetType() == typeof(string))
+                                Console.Write(_o.ToString());
+                            if (_o.GetType() == typeof(char))
+                                Console.Write(_o.ToString());
+                            if (_o.GetType() == typeof(Variable))
+                                Console.Write(((Variable)_o).Object);
                         }
                     }
 
                     if (_f.Name == Functions.Func_Listen_Key)
                     {
-                        Console.ReadKey();
+                        if (_f.Arguments.Length < 1)
+                        {
+                            Console.ReadKey();
+                        } else
+                        {
+                            ((Variable)Tokens[
+                                Tokens.ToList().FindIndex(x => x.GetType() == typeof(Variable) && ((Variable)x) == _f.Arguments[0])
+                                ]).Object = Console.ReadKey();
+                        }
                     }
 
                     if (_f.Name == Functions.Func_Listen_Line)
                     {
-                        Console.ReadLine();
+                        if (_f.Arguments.Length < 1)
+                        {
+                            Console.ReadLine();
+                        }
+                        else
+                        {
+                            ((Variable)Tokens[
+                                Tokens.ToList().FindIndex(x => x.GetType() == typeof(Variable) && ((Variable)x) == _f.Arguments[0])
+                                ]).Object = Console.ReadLine();
+                        }
                     }
                 }
             }

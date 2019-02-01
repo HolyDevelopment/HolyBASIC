@@ -20,6 +20,7 @@ namespace Interpreter.Logic
 
                 string _variableRegex = $"{Variables.Var_Initializer} (.*?) {Variables.Var_Equals}";
                 string _stringRegex = $"{Variables.Str_Quote}(.*?){Variables.Str_Quote}";
+                string _charRegex = $"{Variables.Char_Quote}(.*?){Variables.Char_Quote}";
                 string _functionRegex = @"^(.*)\((.*)\)";
 
                 if (Regex.IsMatch(_line, _variableRegex))
@@ -32,12 +33,7 @@ namespace Interpreter.Logic
                         throw new Exception("variable name contains spaces!");
 
                     string _paramStr = _line.Substring(_m.Value.Count()).TrimStart();
-                    object _param = null;
-
-                    if (Regex.IsMatch(_paramStr, _stringRegex))
-                    {
-                        _param = Utils.AppendCharEscapes(Regex.Match(_paramStr, _stringRegex).Groups[1].Value);
-                    }
+                    object _param = Utils.DeserializeValue(_paramStr, Objects.Where(x => x.GetType() == typeof(Variable)).ToArray());
 
                     Objects.Add(new Variable(_varName, _param));
                 } else if (Regex.IsMatch(_line, _functionRegex))
@@ -54,14 +50,9 @@ namespace Interpreter.Logic
                     List<object> _funcArgs = new List<object>();
                     foreach (string _funcArgStr in _funcArgsStr)
                     {
-                        if (Regex.IsMatch(_funcArgStr.Trim(), _stringRegex))
-                        {
-                            _funcArgs.Add(Utils.AppendCharEscapes(Regex.Match(_funcArgStr, _stringRegex).Groups[1].ToString()));
-                        }
-
-                        Variable _v = (Variable)Objects.Where(x => x.GetType() == typeof(Variable) && ((Variable)x).Name == _funcArgStr.Trim()).FirstOrDefault();
-                        if (_v != null)
-                            _funcArgs.Add(_v);
+                        object _o = Utils.DeserializeValue(_funcArgStr.Trim(), Objects.Where(x => x.GetType() == typeof(Variable)).ToArray());
+                        if (_o != null)
+                            _funcArgs.Add(_o);
                     }
 
                     Objects.Add(new Function(_funcName, _funcArgs.ToArray()));

@@ -6,5 +6,6 @@
         public const char Var_Equals            = ':';
 
         public const char Str_Quote             = '"';
+        public const char Char_Quote            = '\'';
     }
 }

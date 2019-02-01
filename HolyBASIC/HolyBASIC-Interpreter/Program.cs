@@ -36,35 +36,36 @@
 
                HolyBASIC keywords 
 
-               IMPORT [library] - imports hb library
+               import [library] - imports hb library
 
-               holy - assign value
-               data - hold a list of values
+               holy <name> : <object> - assign variable
 
-               if, (else), (elseif), endif - self-explanatory
+               if ([bool]), (else), (elseif ([bool])), endif - self-explanatory
                for, endfor - repeat a section of code a given number of times
                while, endwhile - repeat a section of code while the specified condition is ture
                do, loop (while) - repeat a section of code Forever or While/Until the specified condition is true
 
                step - steps in for loops
 
-               GODMOVE - jumps to a numbered of labelled line in the program
-               GOSUB - jumps to a numbered or labelled line, executes the code it finds there until it reaches a return command
-               ON, GODMOVE/GOSUB - chooses where to jump based on the specified conditions. (basically switch?)
-               DEF FunctionName [args]: - function defining
+               GODMOVE - jumps to a numbered of labelled line in the program (deprecated) 
+               GOSUB - jumps to a numbered or labelled line, executes the code it finds there until it reaches a return command (deprecated)
 
-               GODSLIST - displays all inputted code
-               GODSAY - outputs any sort of message
-               GODLISTEN - asks the user to enter the value of a variable
-               GODTAB - sets the position where the next character will be shown on the screen or printed on paper
+               switch (variable) case (case): break default: break endswitch - switch
+               recite functionname([args]) endrecite: - function defining
 
-               (CMDMT - integer value)
+               gprint(string) - outputs any sort of message
+               glisten([ref char]) - asks the user to enter a key (ref char is for setting value)
+               gread([ref string]) - asks the user to enter text (ref string is for setting value)
+               gtab(int, int) - sets the position of console
+
+               (commandment - integer value)
 
                [Misc]
                
                _USENUMBERSYS 0-1 - determines if it should use the order-by-number system (deprecated)
-               _IMPORTEXT (C# Module) - import C# module, for EXTERN
-               EXTERN (FunctionName) (C# Equivalent) - implement a function that is defined externally
+
+               _importext([C# Module]) - import C# module, for extern
+               _extern([C# Equivalent]) - executes the function and gets the returned object
 
                ## will comment things out
 */
